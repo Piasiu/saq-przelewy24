@@ -1,0 +1,25 @@
+{
+    "name": "piasiu/saq-przelewy24",
+    "type": "library",
+    "description": "Extension to the Saq framework for Przelewy24 support",
+    "keywords": ["piasiu","saq","Przelewy24","extension"],
+    "homepage": "https://github.com/Piasiu/saq-przelewy24",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paweł Piaskowy",
+            "email": "pawel@piaskowy.net",
+            "homepage": "http://piaskowy.net"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Saq\\Views\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
