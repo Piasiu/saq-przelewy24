@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Saq\\Views\\": "src"
+            "Saq\\Przelewy24\\": "src"
         }
     },
     "minimum-stability": "dev",
