@@ -29,6 +29,7 @@ abstract class ApiRequest
         $this->data = array_merge($this->data, [
             'merchantId' => $this->config->getPosId(),
             'posId' => $this->config->getPosId(),
+            'crc' => $this->config->getCrc(),
         ]);
     }
 
@@ -51,11 +52,11 @@ abstract class ApiRequest
         {
             if (array_key_exists($name, $this->data))
             {
-                $data[] = $value;
+                $data[$name] = $value;
             }
         }
 
-        $data[] = $this->config->getCrc();
+        $data['crc'] = $this->config->getCrc();
         $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         return hash('sha384', $json);
     }

@@ -7,16 +7,20 @@ use Saq\Przelewy24\Api\ApiRequestInterface;
 class VerificationRequest extends ApiRequest implements ApiRequestInterface
 {
     protected array $signatureAttributes = [
-        'merchantId',
-        'posId',
         'sessionId',
+        'orderId',
         'amount',
         'currency',
-        'orderId'
+        'crc'
     ];
 
     public function __construct(string $sessionId, int $amount, string $currency, int $orderId)
     {
-        $this->data = $data;
+        $this->data = [
+            'sessionId' => $sessionId,
+            'amount' => $amount,
+            'currency' => $currency,
+            'orderId' => $orderId
+        ];
     }
 }

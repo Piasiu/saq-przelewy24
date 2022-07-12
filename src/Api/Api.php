@@ -44,26 +44,30 @@ class Api
 
     public function register(ApiRequestInterface $request): RegisterResponse
     {
+        $data = $request->getData();
+        $data['sign'] = $request->getSignature();
         return new RegisterResponse(
             $this->baseUrl.self::ENDPOINT_PAYMENT_GATEWAY,
-            $this->send('POST', self::ENDPOINT_REGISTER, $request->getData())
+            $this->send('POST', self::ENDPOINT_REGISTER, $data)
         );
     }
 
     public function verify(ApiRequestInterface $request): VerificationResponse
     {
+        $data = $request->getData();
+        $data['sign'] = $request->getSignature();
         return new VerificationResponse(
-            $this->send('PUT', self::ENDPOINT_VERIFY, $request->getData())
+            $this->send('PUT', self::ENDPOINT_VERIFY, $data)
         );
     }
 
     /**
      * @param string $method
      * @param string $endpoint
-     * @param array $parameters
+     * @param array $data
      * @return array
      */
-    private function send(string $method, string $endpoint, array $parameters): array
+    private function send(string $method, string $endpoint, array $data): array
     {
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -74,7 +78,7 @@ class Api
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_POSTFIELDS => json_encode($parameters, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            CURLOPT_POSTFIELDS => json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             CURLOPT_HTTPHEADER => $this->headers,
         ]);
 
