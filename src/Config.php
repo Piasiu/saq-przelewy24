@@ -38,17 +38,6 @@ class Config
     }
 
     /**
-     * @param array $data
-     * @return string
-     */
-    public function getSign(array $data): string
-    {
-        $data['crc'] = $this->crc;
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        return hash('sha384', $json);
-    }
-
-    /**
      * @return int
      */
     public function getPosId(): int
