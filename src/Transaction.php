@@ -19,43 +19,108 @@ class Transaction extends ApiRequest implements ApiRequestInterface
     public const ENCODING_UTF_8 = 'UTF-8';
     public const ENCODING_WINDOWS_1250 = 'Windows-1250';
 
-    public function __construct(string $returnUrl, string $email, string $sessionId, float $amount, ?string $description = null, string $currency = 'PLN', $country = 'PL', $language = 'pl')
+    public const LANGUAGE_BG = 'bg';
+    public const LANGUAGE_CS = 'cs';
+    public const LANGUAGE_DE = 'de';
+    public const LANGUAGE_EN = 'en';
+    public const LANGUAGE_ES = 'es';
+    public const LANGUAGE_FR = 'fr';
+    public const LANGUAGE_HR = 'hr';
+    public const LANGUAGE_HU = 'hu';
+    public const LANGUAGE_IT = 'it';
+    public const LANGUAGE_NL = 'nl';
+    public const LANGUAGE_PL = 'pl';
+    public const LANGUAGE_PT = 'pt';
+    public const LANGUAGE_SE = 'se';
+    public const LANGUAGE_SK = 'sk';
+
+    protected array $signatureAttributes = [
+        'sessionId',
+        'merchantId',
+        'amount',
+        'currency',
+        'crc'
+    ];
+
+    /**
+     * @param string $sessionId
+     * @param float|int $amount
+     * @param string $email
+     * @param string $returnUrl
+     */
+    public function __construct(string $sessionId, float|int $amount, string $email, string $returnUrl)
     {
         $this->data = [
             'sessionId' => $sessionId,
-            'amount' => (int)($amount * 100),
-            'currency' => $currency,
-            'country' => $country,
-            'language' => $language,
-            'description' => $description ?? $sessionId,
+            'amount' => is_int($amount) ? $amount : (int)($amount * 100),
+            'currency' => 'PLN',
+            'country' => 'PL',
+            'language' => self::LANGUAGE_PL,
+            'description' => $sessionId,
             'email' => $email,
             'urlReturn' => $returnUrl,
-            'channel' => self::CHANNEL_TRANSFERS
+            'channel' => self::CHANNEL_TRANSFERS,
+            'encoding' => self::ENCODING_UTF_8
         ];
     }
 
     /**
-     * @return string
+     * @param string $description
+     * @return $this
      */
-    public function getSessionId(): string
+    public function setDescription(string $description): Transaction
     {
-        return $this->data['sessionId'];
+        $this->data['description'] = $description;
+        return $this;
     }
 
     /**
-     * @return int
+     * @param string $currency
+     * @return $this
      */
-    public function getAmount(): int
+    public function setCurrency(string $currency): Transaction
     {
-        return $this->data['amount'];
+        $this->data['currency'] = $currency;
+        return $this;
     }
 
     /**
-     * @return string
+     * @param string $country
+     * @return $this
      */
-    public function getCurrency(): string
+    public function setCountry(string $country): Transaction
     {
-        return $this->data['currency'];
+        $this->data['country'] = $country;
+        return $this;
+    }
+
+    /**
+     * @param int ...$channels
+     */
+    public function setChannel(... $channels): void
+    {
+        $this->data['channel'] = array_sum($channels);
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setStatusUrl(string $url): void
+    {
+        $this->data['urlStatus'] = $url;
+    }
+
+    /**
+     * @param TransactionProduct $product
+     */
+    public function addProduct(TransactionProduct $product): void
+    {
+        if (!array_key_exists('cart', $this->data))
+        {
+            $this->data['cart'] = [];
+        }
+
+        $this->data['cart'][] = $product->asArray();
     }
 
     /**
@@ -88,42 +153,5 @@ class Transaction extends ApiRequest implements ApiRequestInterface
         {
             $this->data['phone'] = $phoneNumber;
         }
-    }
-
-    /**
-     * @param string $url
-     */
-    public function setStatusUrl(string $url): void
-    {
-        $this->data['urlStatus'] = $url;
-    }
-
-    /**
-     * @param int $channel
-     */
-    public function setChannel(int $channel): void
-    {
-        $this->data['channel'] = $channel;
-    }
-
-    /**
-     * @param TransactionProduct $product
-     */
-    public function addProduct(TransactionProduct $product): void
-    {
-        if (!array_key_exists('cart', $this->data))
-        {
-            $this->data['cart'] = [];
-        }
-
-        $this->data['cart'][] = $product->asArray();
-    }
-
-    /**
-     * @return array
-     */
-    public function asArray(): array
-    {
-        return $this->data;
     }
 }

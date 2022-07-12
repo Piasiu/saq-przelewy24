@@ -42,8 +42,13 @@ class Api
         ];
     }
 
+    /**
+     * @param ApiRequestInterface $request
+     * @return RegisterResponse
+     */
     public function register(ApiRequestInterface $request): RegisterResponse
     {
+        $request->setConfig($this->config);
         $data = $request->getData();
         $data['sign'] = $request->getSignature();
         return new RegisterResponse(
@@ -52,8 +57,13 @@ class Api
         );
     }
 
+    /**
+     * @param ApiRequestInterface $request
+     * @return VerificationResponse
+     */
     public function verify(ApiRequestInterface $request): VerificationResponse
     {
+        $request->setConfig($this->config);
         $data = $request->getData();
         $data['sign'] = $request->getSignature();
         return new VerificationResponse(
