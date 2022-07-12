@@ -14,9 +14,9 @@ class Notification
     private array $data = [];
 
     /**
-     * @var bool
+     * @var bool|null
      */
-    private bool $correct = false;
+    private ?bool $correct = null;
 
     /**
      * @var array|string[]
@@ -40,9 +40,9 @@ class Notification
     {
         $this->config = $config;
 
-        if ($this->handle())
+        if (!$this->handle())
         {
-            $this->correct = $this->validate();
+            $this->correct = false;
         }
     }
 
@@ -101,6 +101,11 @@ class Notification
      */
     public function isCorrect(): bool
     {
+        if ($this->correct === null)
+        {
+            $this->correct = $this->validate();
+        }
+
         return $this->correct;
     }
 
@@ -109,7 +114,7 @@ class Notification
      */
     public function getSessionId(): string
     {
-        return $this->correct ? $this->data['sessionId'] : '';
+        return $this->isCorrect() ? $this->data['sessionId'] : '';
     }
 
     /**
@@ -117,7 +122,7 @@ class Notification
      */
     public function getAmount(): int
     {
-        return $this->correct ? $this->data['amount'] : 0;
+        return $this->isCorrect() ? $this->data['amount'] : 0;
     }
 
     /**
@@ -125,7 +130,7 @@ class Notification
      */
     public function getCurrency(): string
     {
-        return $this->correct ? $this->data['currency'] : '';
+        return $this->isCorrect() ? $this->data['currency'] : '';
     }
 
     /**
@@ -133,7 +138,7 @@ class Notification
      */
     public function getOrderId(): int
     {
-        return $this->correct ? $this->data['orderId'] : 0;
+        return $this->isCorrect() ? $this->data['orderId'] : 0;
     }
 
     /**
@@ -141,7 +146,7 @@ class Notification
      */
     public function getRequest(): ?VerificationRequest
     {
-        if (!$this->correct)
+        if (!$this->isCorrect())
         {
             return null;
         }
