@@ -48,12 +48,9 @@ abstract class ApiRequest
     {
         $data = [];
 
-        foreach ($this->data as $name => $value)
+        foreach ($this->signatureAttributes as $name)
         {
-            if (in_array($name, $this->signatureAttributes))
-            {
-                $data[$name] = $value;
-            }
+            $data[$name] = array_key_exists($name, $this->data) ? $this->data[$name] : '';
         }
 
         $data['crc'] = $this->config->getCrc();

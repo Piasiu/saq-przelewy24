@@ -22,9 +22,9 @@ class RegisterResponse extends ApiResponse
         parent::__construct($response);
         $this->gatewayUrl = $gatewayUrl;
 
-        if (!$this->hasError() && array_key_exists('token', $response))
+        if (!$this->hasError() && array_key_exists('data', $response) && array_key_exists('token', $response['data']))
         {
-            $this->token = $response['token'];
+            $this->token = $response['data']['token'];
         }
     }
 
