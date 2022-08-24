@@ -9,8 +9,8 @@ class Api
     public const URL_LIVE = 'https://secure.przelewy24.pl/';
     public const URL_SANDBOX = 'https://sandbox.przelewy24.pl/';
 
-    public const ENDPOINT_REGISTER = 'api/v1/trnRegister';
-    public const ENDPOINT_VERIFY = 'api/v1/trnVerify';
+    public const ENDPOINT_REGISTER = 'api/v1/transaction/register';
+    public const ENDPOINT_VERIFY = 'api/v1/transaction/verify';
     public const ENDPOINT_PAYMENT_GATEWAY = 'trnRequest/';
 
     /**
