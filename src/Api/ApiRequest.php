@@ -50,7 +50,7 @@ abstract class ApiRequest
 
         foreach ($this->data as $name => $value)
         {
-            if (array_key_exists($name, $this->data))
+            if (in_array($name, $this->signatureAttributes))
             {
                 $data[$name] = $value;
             }
