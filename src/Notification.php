@@ -30,8 +30,7 @@ class Notification
         'currency',
         'orderId',
         'methodId',
-        'statement',
-        'crc'
+        'statement'
     ];
 
     /**
