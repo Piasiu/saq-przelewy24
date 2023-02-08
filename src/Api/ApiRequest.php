@@ -27,7 +27,7 @@ abstract class ApiRequest
     {
         $this->config = $config;
         $this->data = array_merge($this->data, [
-            'merchantId' => $this->config->getPosId(),
+            'merchantId' => $this->config->getMerchantId(),
             'posId' => $this->config->getPosId(),
             'crc' => $this->config->getCrc(),
         ]);
