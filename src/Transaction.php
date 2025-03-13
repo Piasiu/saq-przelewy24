@@ -13,7 +13,7 @@ class Transaction extends ApiRequest implements ApiRequestInterface
     public const CHANNEL_PREPAYMENT = 32;
     public const CHANNEL_PAY_BY_LINK = 64;
     public const CHANNEL_INSTALLMENTS = 128;
-    public const CHANNEL_WALLETY = 256;
+    public const CHANNEL_WALLET = 256;
 
     public const ENCODING_ISO_8859_2 = 'ISO-8859-2';
     public const ENCODING_UTF_8 = 'UTF-8';

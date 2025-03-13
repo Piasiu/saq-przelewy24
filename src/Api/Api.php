@@ -1,7 +1,6 @@
 <?php
 namespace Saq\Przelewy24\Api;
 
-use RuntimeException;
 use Saq\Przelewy24\Config;
 
 class Api

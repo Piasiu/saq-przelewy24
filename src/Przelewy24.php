@@ -1,7 +1,6 @@
 <?php
 namespace Saq\Przelewy24;
 
-use RuntimeException;
 use Saq\Przelewy24\Api\Api;
 use Saq\Przelewy24\Api\RegisterResponse;
 use Saq\Przelewy24\Api\VerificationResponse;
